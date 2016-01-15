@@ -50,5 +50,10 @@ class HuffmanSuite extends FunSuite {
       assert(decode(t1, encode(t1)("ab".toList)) === "ab".toList)
     }
   }
+  
+  test("how many times each word appear") {
+    val t1 = List('a', 'b', 'd', 'a', 'c', 'b')
+    assert(times(t1) === List(('a', 2), ('b', 2), ('d', 1), ('c', 1)))
+  }
 
 }

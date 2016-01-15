@@ -76,7 +76,29 @@ object Huffman {
    *       println("integer is  : "+ theInt)
    *   }
    */
-    def times(chars: List[Char]): List[(Char, Int)] = ???
+    def times(chars: List[Char]): List[(Char, Int)] =
+      timesIncr(chars, List[(Char, Int)]())
+    
+    def timesIncr(chars: List[Char], accu: List[(Char, Int)]): List[(Char, Int)] = {
+      if(chars.isEmpty) accu
+      else {
+      if(accu == Nil) timesIncr(chars.tail, List((chars.head, 1)))  
+      else if(accu.find(_._1 == chars.head).size > 0) {
+          timesIncr(chars.tail, sum(accu, chars.head, Nil))
+        }
+        else timesIncr(chars.tail, accu :+ (chars.head, 1))
+      }
+    }
+    
+    def sum(accu: List[(Char, Int)], char: Char, newAccu: List[(Char, Int)]): List[(Char, Int)] ={
+      if(char == accu.head._1) {
+        if(newAccu == Nil) (char, accu.head._2 + 1) :: accu.tail
+        else List(newAccu.head, (char, accu.head._2 + 1)).union(accu.tail)
+      }
+      else if(newAccu == Nil) sum(accu.tail, char, List(accu.head))
+      else sum(accu.tail, char, (char, accu.head._2) :: newAccu.tail)
+    }
+      
   
   /**
    * Returns a list of `Leaf` nodes for a given frequency table `freqs`.
